@@ -1,5 +1,3 @@
 # robotic_manipulators_playground_light
 
-A python tkinter GUI for designing, simulating and controlling robotic manipulators
-
-This is a python tkinter GUI for designing, simulating and controlling robotic manipulators. It's a light edition from a bigger project located in the repo https://github.com/Lapricode/robotic_manipulators_playground.
+This is a python tkinter GUI for designing, simulating and controlling serial robotic manipulators (with open kinematic chains). It's a light edition of a bigger project located in the repository https://github.com/Lapricode/robotic_manipulators_playground. The inspiration for this work came from the open source project "Thor (3D Printable 6DOF Robotic Arm)", that you can explore in the link http://thor.angel-lm.com/. As such, the GUI was first built to support mainly the Thor robotic arm, but it .
