@@ -70,6 +70,7 @@ The Thor robotic arm is an open-source project, with the entire construction pro
 
 ### Controlling the robotic manipulators - 4th menu
 
-In the picture below, there is the original Asgard GUI from the "Thor" open source project (to the left) and my suggestion (to the right). The menu is heavily inspired from the Asgard structure, but I tried to.
+In the picture below, there is the original Asgard GUI from the "Thor" open source project (to the left) and my suggestion (to the right). The menu is heavily inspired from the Asgard structure, but I tried to
 
-![image](https://github.com/user-attachments/assets/956d129a-2d7a-47ee-9db5-9fa3ad1e3d69)
+![image](https://github.com/user-attachments/assets/4da05154-e8e3-43e2-ae6d-dde2ab3aeadb)
+
