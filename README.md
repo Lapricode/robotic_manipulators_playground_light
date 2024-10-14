@@ -8,7 +8,7 @@ The program uses the classic Denavit - Hartenberg parameterization for the robot
 
 ## Runnning instructions
 
-The program can be run in both Windows and Linux. The Python libraries needed are written below:
+To start the program, run the python file "robotic_manipulators_playground_light.py". The GUI can be run in both Windows and Linux. The Python libraries needed are written below:
 
 - To be installed (using pip for example):
     - roboticstoolbox
@@ -27,8 +27,6 @@ The program can be run in both Windows and Linux. The Python libraries needed ar
     - shutil
     - time
     - threading
-
-To start the program run the python file "robotic_manipulators_playground_light.py".
 
 There is a problem with the swift library that may have been solved by now, or not. The issue has been identified in the robotics-toolbox-python repository on GitHub: https://github.com/petercorke/robotics-toolbox-python/issues/383. The problem arises when running the swift library on Windows. Specifically, there is a discrepancy in how file paths are handled between Linux and Windows systems. The root of the issue lies in how the self.path variable is processed within the SwiftRoute.py file. The current implementation attempts to adjust the path by retaining the initial / character, which works fine on Linux but leads to incorrect path formatting on Windows. To address the problem on Windows, a simple adjustment can be made in the SwiftRoute.py file of the swift library. Specifically, update the block of code by modifying self.path[9:] to self.path[10:].
 
