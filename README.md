@@ -53,3 +53,20 @@ elif self.path.startswith("/retrieve/"):
 The Thor robotic arm is an open-source project, with the entire construction process and control code freely available (http://thor.angel-lm.com/). It was fully designed by Spanish robotics engineer Ángel Larrañaga Muro (https://www.linkedin.com/in/angellarranagamuro/) and has been continuously developed since 2016, both by the creator himself and through contributions from the global community. Its supporting structure (or body) consists of 3D-printable parts. Thor is an open kinematic chain (serial robotic manipulator) with 6 degrees of freedom (6 DOF). All of its joints are rotational, arranged in a yaw-pitch-pitch-yaw-pitch-yaw configuration (or yaw-roll-roll-yaw-roll-yaw, depending on the perspective of the x and y axes), starting from the base and extending to the end-effector.
 
 ![image](https://github.com/user-attachments/assets/dabc133e-9def-4f9e-9445-99ecb8fac507)
+
+## GUI features
+
+### Canvas area
+
+![image](https://github.com/user-attachments/assets/9378d396-b106-4538-bb3c-078dbbe55522)
+
+### Designing and simulating the robotic manipulators - 1st menu
+
+![image](https://github.com/user-attachments/assets/52688546-1270-47ec-9128-84153ac9db70)
+
+### Analysing the kinematics of the robotic manipulators - 2nd and 3rd menus
+
+
+
+### Controlling the robotic manpulators - 4th menu
+
