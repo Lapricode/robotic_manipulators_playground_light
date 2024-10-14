@@ -216,9 +216,6 @@ class robotic_manipulators_playground_window():
         self.swift_sim_thread_flag = False  # the flag to run/stop the Swift simulation thread
         self.swift_sim_dt = 0.01  # the time step of the Swift simulation in seconds
         self.swift_robotic_manipulator = None  # the robotic manipulator model built inside the Swift simulator
-        self.swift_sim_2d_plane = None  # the 2D obstacles plane of the Swift simulation
-        self.swift_sim_camera = None  # the camera of the Swift simulation
-        self.swift_sim_obstacles_objects = []  # the obstacles objects located on the 2D plane for the Swift simulation
         # do some initial actions for the GUI window
         initial_root_width = 0.9 * self.root.winfo_screenwidth()  # the initial width of the root window
         self.workspace_area_width = self.workspace_width_ratio * initial_root_width  # the width of the workspace area
@@ -1903,15 +1900,7 @@ class robotic_manipulators_playground_window():
                     # for the robotic manipulator
                     self.swift_robotic_manipulator.base = self.get_transformation_matrix(self.built_robotic_manipulator_info["base_position_wrt_world"], self.built_robotic_manipulator_info["base_orientation_wrt_world"])  # set the base pose of the robotic manipulator model
                     self.swift_robotic_manipulator.tool = self.get_transformation_matrix(self.built_robotic_manipulator_info["end_effector_position_wrt_last_frame"], self.built_robotic_manipulator_info["end_effector_orientation_wrt_last_frame"])  # set the end-effector pose of the robotic manipulator model
-                    if not self.simulated_robot_is_moving:  # if the simulated robot is not moving
-                        self.swift_robotic_manipulator.q = np.copy(self.built_robotic_manipulator.q)  # set the joints angles of the robotic manipulator model
-                    # for the camera object
-                    self.swift_sim_camera._T = self.camera_wrt_world_transformation_matrix  # set the camera object transformation
-                    # for the 2D plane where the obstacles are located
-                    self.swift_sim_2d_plane._T = self.obst_plane_wrt_world_transformation_matrix  # set the 2D plane transformation
-                    # for the obstacles objects
-                    for obst in range(len(self.swift_sim_obstacles_objects)):
-                        self.swift_sim_obstacles_objects[obst]._T = self.obst_plane_wrt_world_transformation_matrix  # set the obstacles objects transformation
+                    self.swift_robotic_manipulator.q = np.copy(self.built_robotic_manipulator.q)  # set the joints angles of the robotic manipulator model
                     # for the labels
                     joints_configuration_columns_indicator = 1  # the number of rows of the joints configuration indicator
                     joints_configuration = ""  # the configuration of the joints of the robotic manipulator
