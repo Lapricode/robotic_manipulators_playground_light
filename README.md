@@ -56,7 +56,7 @@ The Thor robotic arm is an open-source project, with the entire construction pro
 
 ## GUI features
 
-### Canvas area - visualization of the robotic manipulators
+### Visualizing the robotic manipulators and their environment - canvas area
 
 ![image](https://github.com/user-attachments/assets/c0b0a2a0-c37f-4db5-876b-8c223946f196)
 
