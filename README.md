@@ -2,13 +2,14 @@
 
 ## Introduction
 
-This is a python tkinter GUI for designing, simulating and controlling serial robotic manipulators (with open kinematic chains). It's a light edition of a bigger project located in the repository https://github.com/Lapricode/robotic_manipulators_playground. The inspiration for this work came from the open source project "Thor (3D Printable 6DOF Robotic Arm)", that you may explore in the link http://thor.angel-lm.com. As such, the GUI was first built to support mainly the Thor robotic arm, but it evolved to a more generic program for the simulation of any serial robotic arm up to 12 DOFs. It is supported on both Windows and Linux systems.
+This is a python tkinter GUI for designing, simulating and controlling serial robotic manipulators (with open kinematic chains). It's a light edition of a bigger project located in the repository https://github.com/Lapricode/robotic_manipulators_playground. The inspiration for this work came from the open source project "Thor (3D Printable 6DOF Robotic Arm)", that you may explore going to the link http://thor.angel-lm.com. As such, the GUI was first built to support mainly the Thor robotic arm, but it evolved to a more generic program for the simulation of any serial robotic arm up to 12 DOFs. It is supported on both Windows and Linux systems. The program uses the classic Denavit - Hartenberg parameterization for the robots kinematics.
+The Thor robotic arm is an open-source project, with the entire construction process and control code freely available (http://thor.angel-lm.com). Its supporting structure (or body) consists of 3D-printable parts. Thor is an open kinematic chain (serial robotic manipulator) with 6 degrees of freedom (6 DOF). All of its joints are rotational, arranged in a yaw-pitch-pitch-yaw-pitch-yaw configuration (or yaw-roll-roll-yaw-roll-yaw, depending on the perspective of the x and y axes), starting from the base and extending to the end-effector. In the picture below you can see the fully constructed Thor robotic arm, its joints frames used for the kinematics analysis and the corresponding classic DH parameters.
 
-The program uses the classic Denavit - Hartenberg parameterization for the robots kinematics.
+![image](https://github.com/user-attachments/assets/f9536b42-0e1a-4463-8bb5-6335701df5cf)
 
-## Runnning instructions
+## Running instructions
 
-To start the program, run the python file "robotic_manipulators_playground_light.py". The GUI can be run in both Windows and Linux. The Python libraries needed are written below:
+To start the program, run the python file "robotic_manipulators_playground_light.py". The GUI can be run in both Windows and Linux. The Python libraries needed are written below, along with their suggested versions that :
 
 - To be installed (using pip for example):
     - roboticstoolbox
@@ -28,7 +29,7 @@ To start the program, run the python file "robotic_manipulators_playground_light
     - time
     - threading
 
-There is a problem with the swift library that may have been solved by now, or not. The issue has been identified in the robotics-toolbox-python repository on GitHub: https://github.com/petercorke/robotics-toolbox-python/issues/383. The problem arises when running the swift library on Windows. Specifically, there is a discrepancy in how file paths are handled between Linux and Windows systems. The root of the issue lies in how the self.path variable is processed within the SwiftRoute.py file. The current implementation attempts to adjust the path by retaining the initial / character, which works fine on Linux but leads to incorrect path formatting on Windows. To address the problem on Windows, a simple adjustment can be made in the SwiftRoute.py file of the swift library. Specifically, update the block of code by modifying self.path[9:] to self.path[10:].
+There is a problem with the swift library that may has been solved by now, or not :). The issue has been identified in the robotics-toolbox-python repository on GitHub: https://github.com/petercorke/robotics-toolbox-python/issues/383. The problem arises when running the swift library on Windows. Specifically, there is a discrepancy in how file paths are handled between Linux and Windows systems. The root of the issue lies in how the self.path variable is processed within the SwiftRoute.py file. The current implementation attempts to adjust the path by retaining the initial / character, which works fine on Linux but leads to incorrect path formatting on Windows. To address the problem on Windows, a simple adjustment can be made in the SwiftRoute.py file of the swift library. Specifically, update the block of code by modifying self.path[9:] to self.path[10:].
 
 So, for linux it must be like this:
 ```python
@@ -47,12 +48,6 @@ elif self.path.startswith("/retrieve/"):
     self.send_file_via_real_path()
     return
 ```
-
-## Thor robotic arm
-
-The Thor robotic arm is an open-source project, with the entire construction process and control code freely available (http://thor.angel-lm.com/). It was fully designed by Spanish robotics engineer Ángel Larrañaga Muro (https://www.linkedin.com/in/angellarranagamuro/) and has been continuously developed since 2016, both by the creator himself and through contributions from the global community. Its supporting structure (or body) consists of 3D-printable parts. Thor is an open kinematic chain (serial robotic manipulator) with 6 degrees of freedom (6 DOF). All of its joints are rotational, arranged in a yaw-pitch-pitch-yaw-pitch-yaw configuration (or yaw-roll-roll-yaw-roll-yaw, depending on the perspective of the x and y axes), starting from the base and extending to the end-effector.
-
-![image](https://github.com/user-attachments/assets/f9536b42-0e1a-4463-8bb5-6335701df5cf)
 
 ## GUI features
 
