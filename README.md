@@ -70,7 +70,7 @@ In the first menu, all the basic tools for designing and modeling a serial robot
 
 ### Analysing the kinematics of the robotic manipulators - 2nd and 3rd menus
 
-
+The second and third menus are used for the forward and inverse kinematics analysis, as well as for the differential and inverse differential kinematics analysis, respectively, of the manipulator. In forward kinematics, users can control the variables of all the joints, and then the configurations (position and orientation) of all the frames of the robot are calculated. Also, the accessible workspace can be visualized. In inverse kinematics, the user specifies the configuration of the end-effector, and then the variables of all the joints are calculated. In differential kinematics, the velocities of all the joints are controlled, and then the corresponding velocity (linear and angular) of the end-effector is determined, either in its own frame or in the world frame. In inverse differential kinematics, the user provides the velocity of the end-effector (again in one of the two mentioned frames), and then the joints velocities are returned.
 
 ![image](https://github.com/user-attachments/assets/f87f2005-1aa6-4041-8070-1a22ca7fc524)
 
