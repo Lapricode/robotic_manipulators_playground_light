@@ -58,13 +58,19 @@ The Thor robotic arm is an open-source project, with the entire construction pro
 
 ### Visualizing the robotic manipulators and their environment - canvas area
 
+When the program starts, the visualization canvas and the first basic menu appear on the main screen. The visualization canvas initially displays the world coordinate system, along with the floor. This is where the basic design of the skeletal model of each robotic arm is carried out. Simple geometric objects (dots, lines, and planes) are used for this representation, with the significant drawback that the depth of objects is not accurately depicted, as no z-buffer is considered, unlike typical graphics. For more realistic simulations, there is also the online Swift simulator.
+
 ![image](https://github.com/user-attachments/assets/c0b0a2a0-c37f-4db5-876b-8c223946f196)
 
 ### Designing and simulating the robotic manipulators - 1st menu
 
+In the first menu, all the basic tools for designing and modeling a serial robotic manipulator with an open kinematic chain (first submenu) are available, as well as for visualizing the robot and its environment (second submenu) on the canvas or in the online Swift simulator. Users have flexibility in defining the joints (number, type, range of motion), the structure of the robotic manipulator (DH parameters), and in determining the configuration of the base and the end-effector. There is also an important feature that allows for saving and loading robotic models, enabling them to be reused at any time.
+
 ![image](https://github.com/user-attachments/assets/9b0d6aa5-9686-4df7-af13-19c497f77515)
 
 ### Analysing the kinematics of the robotic manipulators - 2nd and 3rd menus
+
+
 
 ![image](https://github.com/user-attachments/assets/f87f2005-1aa6-4041-8070-1a22ca7fc524)
 
