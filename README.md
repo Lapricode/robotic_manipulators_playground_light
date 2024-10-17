@@ -35,7 +35,6 @@ There is a problem with the swift library that may has been solved by now, or no
 So, for linux it must be like this:
 ```python
 elif self.path.startswith("/retrieve/"):
-    # print(f"Retrieving file: {self.path[10:]}")
     self.path = urllib.parse.unquote(self.path[9:])
     self.send_file_via_real_path()
     return
@@ -44,7 +43,6 @@ elif self.path.startswith("/retrieve/"):
 And for windows it must be like this:
 ```python
 elif self.path.startswith("/retrieve/"):
-    # print(f"Retrieving file: {self.path[10:]}")
     self.path = urllib.parse.unquote(self.path[10:])
     self.send_file_via_real_path()
     return
