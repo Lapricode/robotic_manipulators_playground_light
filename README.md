@@ -68,3 +68,13 @@ In the picture below, there is the original Asgard GUI from the "Thor" open sour
 
 ## How to get started
 
+- Launch the Program
+When the application starts, you will see the canvas visualization area and the main menu. This is where you can begin designing your robotic manipulator.
+- Build Your Robot
+Use the menu options to construct your robot model. Ensure to build the model first, as this is necessary for accessing other features. You can also load a pre-configured model, such as the Thor robotic arm, for quick setup.
+- Save and Load Models
+Save your models for future projects, or load existing ones to resume work.
+- Analyze Kinematics
+Once the model is built, explore kinematics options, including forward, inverse, and differential kinematics, via the analysis menus.
+- Connect and Control
+Connect your physical robotic arm (e.g., Thor robotic arm) through a serial link to an Arduino microcontroller. Use the control menu to set the serial port and the baud rate, adjust the motor settings, and send commands, with the serial communication visible in the integrated serial monitor. Fine-tune the movements of the real robotic manipulator with sliders, buttons, and other controls.
