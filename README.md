@@ -70,7 +70,7 @@ In the picture below, there is the original Asgard GUI from the "Thor" open sour
 
 **1. Launch the Program**
 
-When the application starts, you will see the canvas visualization area and the main menu. This is where you can begin designing your robotic manipulator.
+    When the application starts, you will see the canvas visualization area and the main menu. This is where you can begin designing your robotic manipulator.
 
 **2. Build Your Robot**
 
