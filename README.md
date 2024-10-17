@@ -10,7 +10,7 @@ Thor is an open-source project, with the entire construction process and control
 
 ## Running instructions
 
-To launch the program, run the Python script "robotic_manipulators_playground_light.py." The graphical user interface (GUI) is compatible with both Windows and Linux systems. Below is a list of the required Python libraries, along with the versions that have been tested and confirmed to work on my setup (although other versions may also be fine):
+To launch the program, run the Python script "robotic_manipulators_playground_light.py." The graphical user interface (GUI) is compatible with both Windows and Linux systems. Below is a list of the required Python libraries, along with the versions that have been tested and confirmed to work on my setup (although other newer versions may also be fine):
 
 - To be installed (using pip for example):
     - roboticstoolbox (roboticstoolbox-python), 1.1.0
@@ -62,7 +62,7 @@ The second and third menus are used for the forward and inverse kinematics analy
 
 ### Controlling the robotic manipulators - 4th menu
 
-In the picture below, there is the original Asgard GUI from the "Thor" open source project (the left side, it can be found here: http://thor.angel-lm.com/documentation/control-software) and my suggestion (the right side). The menu is heavily inspired from the Asgard structure.
+In the picture below, there is the original Asgard GUI from the "Thor" open source project (the right side, it can be found here: http://thor.angel-lm.com/documentation/control-software) and my suggestion (the left side). The menu is heavily inspired from the Asgard program structure.
 
 ![image](https://github.com/user-attachments/assets/4da05154-e8e3-43e2-ae6d-dde2ab3aeadb)
 
