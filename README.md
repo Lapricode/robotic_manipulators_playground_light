@@ -10,25 +10,17 @@ Thor is an open-source project, with the entire construction process and control
 
 ## Running instructions
 
-To start the program, run the python file "robotic_manipulators_playground_light.py". The GUI can be run in both Windows and Linux. The Python libraries needed are written below, along with their suggested versions that :
+To launch the program, run the Python script "robotic_manipulators_playground_light.py." The graphical user interface (GUI) is compatible with both Windows and Linux systems. Below is a list of the required Python libraries, along with the versions that have been tested and confirmed to work on my setup (although other versions may also be fine):
 
 - To be installed (using pip for example):
-    - roboticstoolbox
-    - swift
-    - matplotlib (matplotlib.pyplot, matplotlib.colors)
-    - mpl_toolkits (mpl_toolkits.mplot3d)
-    - numpy
-    - scipy (scipy.ndimage)
-    - spatialmath
-    - pyserial
-- Native:
-    - tkinter (tkinter.ttk, tkinter.simpledialog, tkinter.messagebox, tkinter.colorchooser)
-    - string
-    - copy
-    - os
-    - shutil
-    - time
-    - threading
+    - roboticstoolbox (roboticstoolbox-python), 1.1.0
+    - swift (swift-sim), 1.1.0
+    - matplotlib, 3.7.0
+    - numpy, 1.26.4
+    - scipy, 1.11.3
+    - spatialmath (spatialmath-python), 1.1.9
+    - pyserial, 3.5
+- Native: tkinter, string, copy, os, shutil, time, threading
 
 There is a problem with the swift library that may has been solved by now, or not :). The issue has been identified in the robotics-toolbox-python repository on GitHub: https://github.com/petercorke/robotics-toolbox-python/issues/383. The problem arises when running the swift library on Windows. Specifically, there is a discrepancy in how file paths are handled between Linux and Windows systems. The root of the issue lies in how the self.path variable is processed within the SwiftRoute.py file. The current implementation attempts to adjust the path by retaining the initial / character, which works fine on Linux but leads to incorrect path formatting on Windows. To address the problem on Windows, a simple adjustment can be made in the SwiftRoute.py file of the swift library. Specifically, update the block of code by modifying self.path[9:] to self.path[10:].
 
@@ -73,4 +65,6 @@ The second and third menus are used for the forward and inverse kinematics analy
 In the picture below, there is the original Asgard GUI from the "Thor" open source project (the left side, it can be found here: http://thor.angel-lm.com/documentation/control-software) and my suggestion (the right side). The menu is heavily inspired from the Asgard structure.
 
 ![image](https://github.com/user-attachments/assets/4da05154-e8e3-43e2-ae6d-dde2ab3aeadb)
+
+## How to get started
 
