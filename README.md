@@ -78,11 +78,11 @@ Use the menu options to construct your robot model. Ensure to build the model fi
 
 _**3. Save and Load Models**_
 
-Save your models for future projects, or load existing ones to resume work.
+Save your robotic models for future projects, or load existing ones to resume work.
 
 _**4. Analyze Kinematics**_
 
-Once the model is built, explore kinematics options, including forward, inverse, and differential kinematics, via the analysis menus.
+Once the robotic model is built, explore kinematics options, including forward, inverse, and differential kinematics, via the analysis menus.
 
 _**5. Connect and Control**_
 
