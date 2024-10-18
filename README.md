@@ -40,7 +40,7 @@ elif self.path.startswith("/retrieve/"):
     return
 ```
 
-## GUI features
+## GUI Desription
 
 ### Visualizing the robotic manipulators and their environment - canvas area
 
@@ -66,7 +66,7 @@ In the picture below, there is the original Asgard GUI from the "Thor" open sour
 
 ![image](https://github.com/user-attachments/assets/4da05154-e8e3-43e2-ae6d-dde2ab3aeadb)
 
-## How to get started
+### How to get started
 
 _**1. Launch the Program**_
 
