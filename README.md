@@ -1,4 +1,4 @@
-# A playground for serial robotic manipulators
+# A Playground for Serial Robotic Manipulators
 
 ## Introduction
 
