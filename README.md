@@ -40,7 +40,7 @@ elif self.path.startswith("/retrieve/"):
     return
 ```
 
-## GUI Desription
+## GUI Description
 
 ### Visualizing the robotic manipulators and their environment - canvas area
 
