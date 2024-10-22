@@ -28,15 +28,14 @@ class robotic_manipulators_playground_window():
         self.root.geometry("+0+0")  # the position of the window
         self.gui_instance = instance  # the instance of the class that contains the functions and the variables of the robotic manipulator playground
         # do some initial actions for saving and loading the proper folders and files in the system
+        menus_descriptions_folder_name = "menus_descriptions"  # the folder name to store the descriptions of the menus
         robots_run_by_swift_file_name = "robots_run_by_swift.txt"  # the file name to store the robots that can be simulated by the Swift simulator
         robots_models_descriptions_folder_name = "robots_models_descriptions"  # the folder name to store the descriptions (meshes and urdfs/xacros) of the robots models
         saved_robotic_manipulators_folder_name = "saved_robotic_manipulators"  # the folder name to store the saved robotic manipulators
-        menus_descriptions_folder_name = "menus_descriptions"  # the folder name to store the descriptions of the menus
+        self.menus_descriptions_folder_path = str(os.getcwd() + fr"/{menus_descriptions_folder_name}")  # the path of the folder where the descriptions of the menus are stored
         self.robots_run_by_swift_file_path = str(os.getcwd() + fr"/{robots_run_by_swift_file_name}")  # the path of the file to store the robots that can be simulated by the Swift simulator
         self.saved_robots_descriptions_folder_path = str(os.getcwd() + fr"/{robots_models_descriptions_folder_name}")  # the path of the folder where the descriptions (meshes and urdfs/xacros) of the robots models are stored
         self.saved_robotic_manipulators_folder_path = str(os.getcwd() + fr"/{saved_robotic_manipulators_folder_name}")  # the path of the folder where the saved robotic manipulators are stored
-        self.rtbdata_robots_meshes_path = str(rtb.rtb_path_to_datafile("xacro"))  # the rtbdata path to store the meshes and urdfs/xacros of the robotic manipulators models in the library
-        self.menus_descriptions_folder_path = str(os.getcwd() + fr"/{menus_descriptions_folder_name}")  # the path of the folder where the descriptions of the menus are stored
         # if robots_models_descriptions_folder_name not in os.listdir(os.getcwd()):  # if the folder to store the descriptions (meshes and urdfs/xacros) of the robots models does not exist
         #     os.mkdir(self.saved_robots_descriptions_folder_path)  # create the folder to store the descriptions (meshes and urdfs/xacros) of the robots models
         #     for robot_name in self.swift_simulated_robots_list:  # for each robotic manipulator that can be simulated by the Swift simulator
@@ -48,6 +47,7 @@ class robotic_manipulators_playground_window():
         #     os.mkdir(self.saved_control_law_parameters_folder_path)  # create the folder to store the saved control law parameters
         # if menus_descriptions_folder_name not in os.listdir(os.getcwd()):  # if the folder to store the descriptions of the menus does not exist
         #     os.mkdir(self.menus_descriptions_folder_path)  # create the folder to store the descriptions of the menus
+        self.rtbdata_robots_meshes_path = str(rtb.rtb_path_to_datafile("xacro"))  # the rtbdata path to store the meshes and urdfs/xacros of the robotic manipulators models in the library
         robots_models_descriptions_folders_list = [folder for folder in os.listdir(self.saved_robots_descriptions_folder_path) if os.path.isdir(self.saved_robots_descriptions_folder_path + fr"/{folder}")]  # the folders of the robots models descriptions
         for robot_model in robots_models_descriptions_folders_list:  # for each robotic manipulator model
             if robot_model not in os.listdir(self.rtbdata_robots_meshes_path):  # if the robotic manipulator model is not in the rtbdata folder
@@ -57,6 +57,7 @@ class robotic_manipulators_playground_window():
                 shutil.copytree(self.saved_robots_descriptions_folder_path + fr"/{robot_model}", self.rtbdata_robots_meshes_path + fr"/{robot_model}")  # copy the robot model to the rtbdata folder
         # define the menus of the GUI
         self.main_menu_choice = 0  # the number choice of the main menu
+        self.general_GUI_description = open(self.menus_descriptions_folder_path + "/general.txt", "r", encoding = "utf-8").read()  # the general description of the GUI
         self.submenus_titles = [["Define robot's parameters", "Adjust the visualization"], ["Forward kinematics", "Inverse kinematics"], ["Differential kinematics", "Inverse differential kinematics"], \
                             ["Establish communication with arduino microcontroller", "Serial monitor / Console", "Control joints and end-effector motors"]]  # the titles of the submenus
         self.submenus_descriptions = []  # the descriptions of the submenus
@@ -236,7 +237,7 @@ class robotic_manipulators_playground_window():
         self.root.bind("<Control-s>", self.save_robotic_manipulator_model_file); self.root.bind("<Control-S>", self.save_robotic_manipulator_model_file)  # bind the save robot model function to the Control + s and Control + S keys combinations
         self.root.bind("<Control-b>", self.build_robotic_manipulator_model); self.root.bind("<Control-B>", self.build_robotic_manipulator_model)  # bind the build robot model function to the Control + b and Control + B keys combinations
         self.root.bind("<Control-v>", self.visualize_control_or_kinematics_variables); self.root.bind("<Control-V>", self.visualize_control_or_kinematics_variables)  # bind the visualize control or kinematics variables function to the Control + v and Control + V keys combinations
-        self.root.bind("<Control-a>", self.visualize_robotic_manipulator); self.root.bind("<Control-A>", self.visualize_robotic_manipulator)  # bind the visualize robotic manipulator function to the Control + a and Control + A keys combinations
+        self.root.bind("<Control-z>", self.visualize_robotic_manipulator); self.root.bind("<Control-Z>", self.visualize_robotic_manipulator)  # bind the visualize robotic manipulator function to the Control + z and Control + Z keys combinations
         # self.root.bind("<FocusIn>", self.resize_root_window_2)  # bind the resize window function to the focus in event
         # self.root.bind("<Unmap>", self.root_not_in_focus)  # bind the resize window function to the focus out event
         for main_menu_num in range(len(self.main_menus_build_details)):
@@ -285,6 +286,7 @@ class robotic_manipulators_playground_window():
         self.workspace_area_right_edge = tk.Frame(self.workspace_area, width = self.workspace_right_edge_width, height = self.workspace_canvas_height, bg = self.workspace_area_edges_color, bd = 3, relief = "solid")
         self.workspace_area_right_edge.grid(row = 1, column = 2, sticky = tk.NSEW)
         workspace_area_title_ord = 1/2.5; workspace_area_title_x = 1/2; gbl.menu_label(self.workspace_area_up_edge, "World frame - Robotic manipulator and its Environment", f"Calibri {self.workspace_title_font} bold", "black", self.workspace_area_edges_color, workspace_area_title_x * self.workspace_area_width, workspace_area_title_ord * self.workspace_up_edge_height)
+        general_info_button_ord = 1/2.5; general_info_button_x = 1/20; self.general_info_button = gbl.menu_button(self.workspace_area_up_edge, "ⓘ", f"Calibri {self.workspace_borders_font+2} bold", "black", self.workspace_area_edges_color, general_info_button_x * self.workspace_area_width, general_info_button_ord * self.workspace_up_edge_height, lambda event: ms.showinfo("General instructions", self.general_GUI_description, master = self.root)).button
         self.create_workspace_canvas()  # create the workspace canvas
         # create the workspace options located at the borders of the workspace area
         workspace_width_ratio_label_ord = 1
