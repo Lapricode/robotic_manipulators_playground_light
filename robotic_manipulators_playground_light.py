@@ -451,27 +451,6 @@ class robotic_manipulators_playground_window():
         self.show_manipulator_points_button.configure(text = self.robot_joints_enable_visualization)
         self.show_manipulator_links_button.configure(text = self.robot_links_enable_visualization)
         self.show_end_effector_frame_button.configure(text = self.end_effector_frame_enable_visualization)
-    def visualize_obstacles(self, event = None):  # visualize or hide the obstacles
-        if self.obstacles_plane_enable_visualization == "shown" or self.plane_frame_enable_visualization == "frame" or self.obstacles_objects_enable_visualization == "shown":  # if the obstacles are shown in any form
-            self.obstacles_plane_enable_visualization = "hidden"
-            self.plane_frame_enable_visualization = "plain"
-            self.obstacles_objects_enable_visualization = "hidden"
-        else:  # if the obstacles are hidden
-            self.obstacles_plane_enable_visualization = "shown"
-            self.plane_frame_enable_visualization = "frame"
-            self.obstacles_objects_enable_visualization = "shown"
-        self.show_obstacles_plane_button.configure(text = self.obstacles_plane_enable_visualization)
-        self.show_obstacles_plane_frame_button.configure(text = self.plane_frame_enable_visualization)
-        self.show_obstacles_objects_button.configure(text = self.obstacles_objects_enable_visualization)
-    def visualize_camera(self, event = None):  # visualize or hide the camera
-        if self.camera_enable_visualization == "shown" or self.camera_frame_enable_visualization == "frame":  # if the camera is shown in any form
-            self.camera_enable_visualization = "hidden"
-            self.camera_frame_enable_visualization = "plain"
-        else:  # if the camera is hidden
-            self.camera_enable_visualization = "shown"
-            self.camera_frame_enable_visualization = "frame"
-        self.show_camera_button.configure(text = self.camera_enable_visualization)
-        self.show_camera_frame_button.configure(text = self.camera_frame_enable_visualization)
 
     # functions for the control of the workspace
     def apply_workspace_transformation(self, event = None):  # apply the transformation defined by the proper transfer, rotation and scale variables to all the points of the workspace
