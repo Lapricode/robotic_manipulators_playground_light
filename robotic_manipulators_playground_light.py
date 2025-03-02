@@ -6,7 +6,7 @@ import tkinter.colorchooser as cc
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import string, copy
-import os, shutil
+import os, shutil, sys
 import serial, time
 import roboticstoolbox as rtb
 import numpy as np
@@ -182,7 +182,7 @@ class robotic_manipulators_playground_window():
         self.command_ending_text = ""  # the ending text of the commands sent to the arduino microcontroller
         self.show_status_responses = False  # the flag to show the status responses of the robotic manipulator
         self.show_ok_responses = False  # the flag to show the ok responses for the commands sent to the robotic manipulator
-        self.show_responses_indicators = ["✖", "✔"]  # the possible values of the show responses indicators
+        self.show_responses_indicators = ["no", "yes"]  # the possible values of the show responses indicators
         self.expanded_serial_monitor = False  # choose if you want to expand the serial monitor menu
         self.allow_sending_all_ports = False  # choose if you want to allow sending commands to all serial ports
         # define the parameters for the kinematics (forward kinematics, inverse kinematics, differential kinematics, inverse differential kinematics) of the robotic manipulator
@@ -359,8 +359,8 @@ class robotic_manipulators_playground_window():
         self.menus_area_up_edge = tk.Frame(self.menus_area, width = self.menus_area_width, height = self.menus_area_borders_length, bg = self.menus_area_edges_color, bd = 5, relief = "ridge")
         self.menus_area_up_edge.grid(row = 0, column = 0, sticky = tk.NSEW)
         menus_area_title_ord = 1/2.5; menus_area_title_x = 1/2; self.main_menu_label = gbl.menu_label(self.menus_area_up_edge, self.main_menus_build_details[self.main_menu_choice]['title'], f"Calibri {self.menus_title_font} bold", "black", self.menus_area_edges_color, menus_area_title_x * self.menus_area_width, menus_area_title_ord * self.menus_area_borders_length).label
-        previous_main_menu_button_ord = 1/2.5; previous_main_menu_button_x = 1/6; self.previous_main_menu_button = gbl.menu_button(self.menus_area_up_edge, "⇦", f"Calibri {self.menus_title_font} bold", "red", self.menus_area_edges_color, previous_main_menu_button_x * self.menus_area_width, previous_main_menu_button_ord * self.menus_area_borders_length, lambda event: self.change_main_menu(self.main_menu_choice-1, event))
-        next_main_menu_button_ord = 1/2.5; next_main_menu_button_x = 5/6; self.next_main_menu_button = gbl.menu_button(self.menus_area_up_edge, "⇨", f"Calibri {self.menus_title_font} bold", "red", self.menus_area_edges_color, next_main_menu_button_x * self.menus_area_width, next_main_menu_button_ord * self.menus_area_borders_length, lambda event: self.change_main_menu(self.main_menu_choice+1, event))
+        previous_main_menu_button_ord = 1/2.5; previous_main_menu_button_x = 1/6; self.previous_main_menu_button = gbl.menu_button(self.menus_area_up_edge, "←", f"Calibri {self.menus_title_font} bold", "red", self.menus_area_edges_color, previous_main_menu_button_x * self.menus_area_width, previous_main_menu_button_ord * self.menus_area_borders_length, lambda event: self.change_main_menu(self.main_menu_choice-1, event))
+        next_main_menu_button_ord = 1/2.5; next_main_menu_button_x = 5/6; self.next_main_menu_button = gbl.menu_button(self.menus_area_up_edge, "→", f"Calibri {self.menus_title_font} bold", "red", self.menus_area_edges_color, next_main_menu_button_x * self.menus_area_width, next_main_menu_button_ord * self.menus_area_borders_length, lambda event: self.change_main_menu(self.main_menu_choice+1, event))
         self.clear_menus_background()  # clear the menus background
     def create_workspace_canvas(self, event = None):  # create the workspace canvas where the robotic manipulator and its environment are visualized
         try: self.workspace_canvas.destroy()  # destroy the previous workspace canvas
@@ -381,7 +381,11 @@ class robotic_manipulators_playground_window():
         self.workspace_canvas.bind("<Double-Button-3>", lambda event: self.reset_workspace_canvas_2(event))
         self.workspace_canvas.bind("<Button-1>", lambda event: self.rotate_workspace_start(event))
         self.workspace_canvas.bind("<B1-Motion>", lambda event: self.rotate_workspace(event))
-        self.workspace_canvas.bind("<MouseWheel>", lambda event: self.scale_workspace(event))
+        if sys.platform.startswith('win'):
+            self.workspace_canvas.bind("<MouseWheel>", lambda event: self.scale_workspace(event))
+        elif sys.platform.startswith('linux') or sys.platform.startswith('cygwin'):
+            self.workspace_canvas.bind("<Button-4>", lambda event: self.scale_workspace(event, direction = "up"))
+            self.workspace_canvas.bind("<Button-5>", lambda event: self.scale_workspace(event, direction = "down"))
 
     # functions for the workspace options located at the borders of the workspace area
     def change_workspace_width_ratio(self, change_type = +1, event = None):  # change the width ratio of the workspace area to the root window
@@ -521,11 +525,17 @@ class robotic_manipulators_playground_window():
         self.z_cor_workspace_origin = self.z_cor_workspace_origin - 2 * self.workspace_control_sensitivity * (event.y - self.last_transfer_z)
         self.last_transfer_y = event.x
         self.last_transfer_z = event.y
-    def scale_workspace(self, event):  # scale the workspace according to the mouse wheel movement
-        if event.delta == -120 and self.scale_parameter >= 0.2:
-            self.scale_parameter -= self.workspace_control_sensitivity / 5
-        elif event.delta == 120 and self.scale_parameter <= 15:
-            self.scale_parameter += self.workspace_control_sensitivity / 5
+    def scale_workspace(self, event, direction = None):  # scale the workspace according to the mouse wheel movement
+        if direction:  # Linux system
+            if direction == "down" and self.scale_parameter >= 0.2:
+                self.scale_parameter -= self.workspace_control_sensitivity / 5.0
+            elif direction == "up" and self.scale_parameter <= 15.0:
+                self.scale_parameter += self.workspace_control_sensitivity / 5.0
+        else:  # Windows system
+            if event.delta < 0.0 and self.scale_parameter >= 0.2:
+                self.scale_parameter -= self.workspace_control_sensitivity / 5.0
+            elif event.delta > 0.0 and self.scale_parameter <= 15.0:
+                self.scale_parameter += self.workspace_control_sensitivity / 5.0
     def rotate_workspace_start(self, event):  # initialize the coordinates of the last mouse position when the user starts to rotate the workspace
         self.last_rotation_y = event.y
         self.last_rotation_z = event.x
@@ -783,10 +793,10 @@ class robotic_manipulators_playground_window():
         var_max_limit_label_x = 3/5; gbl.menu_label(menu_frame, "max:", f"Calibri {menu_properties['options_font']} bold", menu_properties['labels_color'], menu_properties['bg_color'], var_max_limit_label_x * menu_properties['width'], var_max_limit_label_ord * menu_properties['height'] / (menu_properties['rows'] + 1))
         var_max_limit_button_x = 4/5; self.var_max_limit_button = gbl.menu_button(menu_frame, "0.0", f"Calibri {menu_properties['options_font']} bold", menu_properties['buttons_color'], menu_properties['bg_color'], var_max_limit_button_x * menu_properties['width'], var_max_limit_label_ord * menu_properties['height'] / (menu_properties['rows'] + 1), self.change_joint_variable_max_limit).button
         base_end_effector_label_x = 1/2; gbl.menu_label(menu_frame, "Base and end-effector systems:", f"Calibri {menu_properties['options_font']} bold", menu_properties['subtitles_color'], menu_properties['bg_color'], base_end_effector_label_x * menu_properties['width'], base_end_effector_label_ord * menu_properties['height'] / (menu_properties['rows'] + 1))
-        base_label_x = 1/3; gbl.menu_label(menu_frame, "World ⭢ Base ⭢\nFrame \"0\"", f"Calibri {menu_properties['options_font']} bold", menu_properties['labels_color'], menu_properties['bg_color'], base_label_x * menu_properties['width'], base_label_ord * menu_properties['height'] / (menu_properties['rows'] + 1))
+        base_label_x = 1/3; gbl.menu_label(menu_frame, "World → Base →\nFrame \"0\"", f"Calibri {menu_properties['options_font']} bold", menu_properties['labels_color'], menu_properties['bg_color'], base_label_x * menu_properties['width'], base_label_ord * menu_properties['height'] / (menu_properties['rows'] + 1))
         base_pos_button_x = 2/3; self.base_pos_button = gbl.menu_button(menu_frame, "position", f"Calibri {menu_properties['options_font']} bold", menu_properties['buttons_color'], menu_properties['bg_color'], base_pos_button_x * menu_properties['width'], base_pos_button_ord * menu_properties['height'] / (menu_properties['rows'] + 1), self.change_base_zero_frame_positions).button
         base_orient_button_x = 2/3; self.base_orient_button = gbl.menu_button(menu_frame, "orientation", f"Calibri {menu_properties['options_font']} bold", menu_properties['buttons_color'], menu_properties['bg_color'], base_orient_button_x * menu_properties['width'], base_orient_button_ord * menu_properties['height'] / (menu_properties['rows'] + 1), self.change_base_zero_frame_orientations).button
-        end_effector_label_x = 1/3; gbl.menu_label(menu_frame, "Frame \"n\" ⭢\nEnd-effector:", f"Calibri {menu_properties['options_font']} bold", menu_properties['labels_color'], menu_properties['bg_color'], end_effector_label_x * menu_properties['width'], end_effector_label_ord * menu_properties['height'] / (menu_properties['rows'] + 1))
+        end_effector_label_x = 1/3; gbl.menu_label(menu_frame, "Frame \"n\" →\nEnd-effector:", f"Calibri {menu_properties['options_font']} bold", menu_properties['labels_color'], menu_properties['bg_color'], end_effector_label_x * menu_properties['width'], end_effector_label_ord * menu_properties['height'] / (menu_properties['rows'] + 1))
         end_effector_pos_button_x = 2/3; self.end_effector_pos_button = gbl.menu_button(menu_frame, "position", f"Calibri {menu_properties['options_font']} bold", menu_properties['buttons_color'], menu_properties['bg_color'], end_effector_pos_button_x * menu_properties['width'], end_effector_pos_button_ord * menu_properties['height'] / (menu_properties['rows'] + 1), self.change_end_effector_position).button
         end_effector_orient_button_x = 2/3; self.end_effector_orient_button = gbl.menu_button(menu_frame, "orientation", f"Calibri {menu_properties['options_font']} bold", menu_properties['buttons_color'], menu_properties['bg_color'], end_effector_orient_button_x * menu_properties['width'], end_effector_orient_button_ord * menu_properties['height'] / (menu_properties['rows'] + 1), self.change_end_effector_orientation).button
         robot_control_operations_label_x = 1/2; gbl.menu_label(menu_frame, "Robot control operations:", f"Calibri {menu_properties['options_font']} bold", menu_properties['subtitles_color'], menu_properties['bg_color'], robot_control_operations_label_x * menu_properties['width'], robot_control_operations_label_ord * menu_properties['height'] / (menu_properties['rows'] + 1))
@@ -1136,7 +1146,7 @@ class robotic_manipulators_playground_window():
         self.serial_ports_combobox = ttk.Combobox(menu_frame, font = f"Calibri {menu_properties['options_font']}", state = "readonly", width = 7, values = self.available_serial_ports, justify = "center")
         serial_ports_combobox_x = 2/7; self.serial_ports_combobox.place(x = serial_ports_combobox_x * menu_properties['width'], y = serial_port_label_ord * menu_properties['height'] / (menu_properties['rows'] + 1), anchor = "center")
         self.serial_ports_combobox.bind("<<ComboboxSelected>>", self.change_serial_port)
-        serial_ports_search_button_x = 2.7/7; self.serial_ports_search_button = gbl.menu_button(menu_frame, "⟲", f"Calibri {menu_properties['options_font']-2} bold", menu_properties['buttons_color'], menu_properties['bg_color'], serial_ports_search_button_x * menu_properties['width'], serial_ports_search_button_ord * menu_properties['height'] / (menu_properties['rows'] + 1), self.obtain_serial_ports).button
+        serial_ports_search_button_x = 2.7/7; self.serial_ports_search_button = gbl.menu_button(menu_frame, "↺", f"Calibri {menu_properties['options_font']-2} bold", menu_properties['buttons_color'], menu_properties['bg_color'], serial_ports_search_button_x * menu_properties['width'], serial_ports_search_button_ord * menu_properties['height'] / (menu_properties['rows'] + 1), self.obtain_serial_ports).button
         baudrate_label_x = serial_port_label_x; gbl.menu_label(menu_frame, "Baud rate:", f"Calibri {menu_properties['options_font']} bold", menu_properties['labels_color'], menu_properties['bg_color'], baudrate_label_x * menu_properties['width'], baudrate_label_ord * menu_properties['height'] / (menu_properties['rows'] + 1))
         self.baudrates_combobox = ttk.Combobox(menu_frame, font = f"Calibri {menu_properties['options_font']}", state = "readonly", width = 7, values = self.baudrates_list, justify = "center")
         baudrates_combobox_x = serial_ports_combobox_x; self.baudrates_combobox.place(x = baudrates_combobox_x * menu_properties['width'], y = baudrate_label_ord * menu_properties['height'] / (menu_properties['rows'] + 1), anchor = "center")
@@ -1189,8 +1199,8 @@ class robotic_manipulators_playground_window():
         show_hide_ok_button_x = 13/15; self.show_hide_ok_button = gbl.menu_button(menu_frame, self.show_responses_indicators[[False, True].index(self.show_ok_responses)], f"Calibri {menu_properties['options_font']} bold", menu_properties['buttons_color'], menu_properties['bg_color'], show_hide_ok_button_x * menu_properties['width'], show_hide_ok_button_ord * menu_properties['height'] / (menu_properties['rows'] + 1), self.show_hide_ok_responses_on_console).button
         show_hide_status_label_x = 8/10; gbl.menu_label(menu_frame, "Status:", f"Calibri {menu_properties['options_font']} bold", menu_properties['labels_color'], menu_properties['bg_color'], show_hide_status_label_x * menu_properties['width'], show_hide_status_label_ord * menu_properties['height'] / (menu_properties['rows'] + 1))
         show_hide_status_button_x = 13/15; self.show_hide_status_button = gbl.menu_button(menu_frame, self.show_responses_indicators[[False, True].index(self.show_status_responses)], f"Calibri {menu_properties['options_font']} bold", menu_properties['buttons_color'], menu_properties['bg_color'], show_hide_status_button_x * menu_properties['width'], show_hide_status_button_ord * menu_properties['height'] / (menu_properties['rows'] + 1), self.show_hide_status_responses_on_console).button
-        expand_serial_monitor_menu_x = 19/20; self.expand_serial_monitor_menu_button = gbl.menu_button(menu_frame, ["⇱", "⇲"][[False, True][self.expanded_serial_monitor]], f"Calibri {menu_properties['options_font']} bold", menu_properties['buttons_color'], menu_properties['bg_color'], expand_serial_monitor_menu_x * menu_properties['width'], expand_serial_monitor_menu_ord * menu_properties['height'] / (menu_properties['rows'] + 1), self.expand_serial_monitor_menu).button
-        clear_serial_monitor_x = 19/20; self.clear_serial_monitor_button = gbl.menu_button(menu_frame, "🗑", f"Calibri {menu_properties['options_font']} bold", menu_properties['buttons_color'], menu_properties['bg_color'], clear_serial_monitor_x * menu_properties['width'], clear_serial_monitor_ord * menu_properties['height'] / (menu_properties['rows'] + 1), self.clear_serial_monitor).button
+        expand_serial_monitor_menu_x = 19/20; self.expand_serial_monitor_menu_button = gbl.menu_button(menu_frame, ["↖", "↘"][[False, True][self.expanded_serial_monitor]], f"Calibri {menu_properties['options_font']} bold", menu_properties['buttons_color'], menu_properties['bg_color'], expand_serial_monitor_menu_x * menu_properties['width'], expand_serial_monitor_menu_ord * menu_properties['height'] / (menu_properties['rows'] + 1), self.expand_serial_monitor_menu).button
+        clear_serial_monitor_x = 19/20; self.clear_serial_monitor_button = gbl.menu_button(menu_frame, "del", f"Calibri {menu_properties['options_font']} bold", menu_properties['buttons_color'], menu_properties['bg_color'], clear_serial_monitor_x * menu_properties['width'], clear_serial_monitor_ord * menu_properties['height'] / (menu_properties['rows'] + 1), self.clear_serial_monitor).button
     def generate_control_joints_menu(self, menu_frame, menu_properties, event = None):  # build the control joints menu
         # options order
         menu_title_ord = 1
@@ -2311,8 +2321,8 @@ class robotic_manipulators_playground_window():
         self.write_serial_monitor("Info:", "green", "The ok responses are now {}.".format(["hidden", "shown"][[False, True].index(self.show_ok_responses)]))  # inform the user that the ok responses are now shown or hidden
     def show_hide_status_responses_on_console(self, event = None):  # show or hide the status responses on the console serial monitor
         self.show_status_responses = not self.show_status_responses  # show or hide the status responses on the console serial monitor
+        self.show_hide_status_button.configure(text = self.show_responses_indicators[[False, True].index(self.show_status_responses)])  # change the text of the show/hide status responses button
         self.write_serial_monitor("Info:", "green", "The status responses are now {}.".format(["hidden", "shown"][[False, True].index(self.show_status_responses)]))  # inform the user that the status responses are now shown or hidden
-        self.show_hide_status_button.configure(text = ["✖", "✔"][[False, True].index(self.show_status_responses)])  # change the text of the show/hide status responses button
     def expand_serial_monitor_menu(self, event = None):  # expand the serial monitor menu
         self.expanded_serial_monitor = not self.expanded_serial_monitor  # expand or collapse the serial monitor menu
         self.build_control_robotic_manipulator_menus(self.submenus_titles[self.main_menu_choice], self.submenus_descriptions[self.main_menu_choice])  # create the control robotic manipulator menus
