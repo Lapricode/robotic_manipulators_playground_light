@@ -2032,7 +2032,9 @@ class robotic_manipulators_playground_window():
                 self.choose_end_effector_orientation_button.configure(text = str([np.round(np.rad2deg(self.chosen_invkine_orientation[k]), self.angles_precision) for k in range(len(self.chosen_invkine_orientation))]))  # change the text of the button that allows the user to choose the end-effector orientation
                 self.choose_invkine_tolerance_button.configure(text = f"{np.round(self.invkine_tolerance, 10)}")  # change the text of the button that allows the user to choose the tolerance for the inverse kinematics solver
                 # solve the inverse kinematics of the robotic manipulator for the chosen end-effector position and orientation
-                self.invkine_joints_configuration, invkine_success = kin.compute_inverse_kinematics(self.built_robotic_manipulator, self.get_transformation_matrix(self.chosen_invkine_3d_position, self.chosen_invkine_orientation), self.invkine_tolerance)  # compute the inverse kinematics of the robotic manipulator
+                end_effector_pose = self.get_transformation_matrix(self.chosen_invkine_3d_position, self.chosen_invkine_orientation)  # the end-effector pose
+                self.invkine_joints_configuration, invkine_success = kin.compute_inverse_kinematics(self.built_robotic_manipulator, end_effector_pose, self.invkine_tolerance)  # compute the inverse kinematics of the robotic manipulator
+                # self.invkine_joints_configuration, invkine_success = kin.compute_invkine_position_only(self.built_robotic_manipulator, self.chosen_invkine_3d_position, self.invkine_tolerance, max_iter = 1000)  # compute the inverse kinematics of the robotic manipulator
                 joints_configuration = ""  # initialize the joints configuration indicator of the robotic manipulator
                 joints_configuration_columns_indicator = 5  # the number of rows of the joints configuration indicator
                 if invkine_success:  # if the inverse kinematics analysis is successful

@@ -69,7 +69,54 @@ def compute_inverse_kinematics(robot, end_effector_desired_pose_T, tol_error = 1
     invkine_solver = robot.ik_LM(Tep = np.array(end_effector_desired_pose_T, dtype = float), tol = tol_error)  # calculate the inverse kinematics using the Levenberg-Marquadt solver
     q_joints = invkine_solver[0]  # extract the joints configuration
     invkine_success = invkine_solver[1]  # extract the success flag, which is 1 if the solver converged to a solution and 0 otherwise
-    return q_joints, invkine_success  # return the joints configuration and the success flag
+    return q_joints.reshape(-1), invkine_success  # return the joints configuration and the success flag
+
+def compute_invkine_position_only(robot, end_effector_desired_position, tol_error = 1e-8, max_iter = 1000):  # calculate the joints configuration that corresponds to the desired end-effector position
+    q_list, pos_list = find_reachable_workspace(robot, divs = 5, show_plots = False)  # sample some joints configurations from the reachable workspace
+    q_min = np.array([robot.qlim[0][:]]).reshape(-1, 1)  # get the minimum joints values
+    q_max = np.array([robot.qlim[1][:]]).reshape(-1, 1)  # get the maximum joints values
+    # sort q_list elements based on the distance from the desired end-effector position, using pos_list
+    _, q_list = map(list, zip(*sorted(zip(pos_list, q_list), key = lambda x: np.linalg.norm(x[0] - end_effector_desired_position))))
+    for q in q_list:  # iterate through the sampled joints configurations
+        q = q.reshape(-1, 1)  # convert the joints configuration to a numpy array
+        for k in range(max_iter):  # iterate through the maximum number of iterations
+            T_fkine = np.array(compute_forward_kinematics(robot, q))  # calculate the forward kinematics for the current joints configuration
+            error = np.array(end_effector_desired_position).reshape(-1, 1) - T_fkine[:3, 3].reshape(-1, 1)  # calculate the error between the desired and the current end-effector positions
+            if np.linalg.norm(error) < tol_error:  # if the error is less than the specified tolerance
+                return q.reshape(-1), True  # return the joints configuration and the success flag
+                # if check_joints_limits(robot, q)[0]:  # if the joints configuration is within the joints limits
+                #     return q.reshape(-1), True  # return the joints configuration and the success flag
+                # else:
+                #     break
+            J0 = np.array(robot.jacob0(q))  # calculate the geometric Jacobian matrix of the robotic arm wrt the world frame
+            J0_pos = J0[:3, :]  # extract the position part of the Jacobian matrix
+            J0_pos_pinv = np.linalg.pinv(J0_pos)  # calculate the pseudo-inverse of the position part of the Jacobian matrix
+            delta_q = 0.1 * J0_pos_pinv @ error  # calculate the joints configuration update
+            q += delta_q  # update the joints configuration
+            for i in range(len(q)):  # iterate through the joints configuration
+                if q[i] % (2 * np.pi) > q_min[i] and q[i] % (2 * np.pi) < q_max[i]:
+                    q[i] = q[i] % (2 * np.pi)  # normalize the joints configuration
+                elif q[i] % (-2 * np.pi) > q_min[i] and q[i] % (-2 * np.pi) < q_max[i]:
+                    q[i] = q[i] % (-2 * np.pi)  # normalize the joints configuration
+            
+            # # Define QP variables
+            # delta_q = cp.Variable(len(q))
+            # # Define QP cost function (minimize squared error)
+            # Q = J0_pos.T @ J0_pos
+            # c = -J0_pos.T @ error
+            # cost = (1/2) * cp.quad_form(delta_q, Q) + c.T @ delta_q
+            # # Define joint limit constraints
+            # constraints = [(q_min - q).reshape(-1) <= delta_q, delta_q <= (q_max - q).reshape(-1)]
+            # # Solve the QP problem
+            # prob = cp.Problem(cp.Minimize(cost), constraints)
+            # prob.solve()
+            # # Update joint angles
+            # q += (delta_q.value).reshape(-1, 1)
+            
+            print(q)
+            print(q * 180 / np.pi)
+            # print(np.array(compute_forward_kinematics(robot, q)))
+    return q.reshape(-1), False  # return the joints configuration and the success flag
 
 def compute_differential_kinematics(robot, q_joints, q_dot_joints, wrt_frame = "world"):  # calculate the differential kinematics of the robotic arm using roboticstoolbox
     J0 = np.array(robot.jacob0(q_joints))  # calculate the geometric Jacobian matrix of the robotic arm wrt the world frame
@@ -78,7 +125,7 @@ def compute_differential_kinematics(robot, q_joints, q_dot_joints, wrt_frame = "
     elif wrt_frame == "end-effector":  # if the Jacobian is calculated wrt the end-effector frame
         Je = np.array(robot.jacobe(q_joints))  # calculate the geometric Jacobian matrix of the robotic arm wrt the end-effector frame
         # T_fkine = compute_forward_kinematics(robot, q_joints)  # calculate the forward kinematics of the robotic arm
-        # Je = np.block([[T_fkine[:3, :3].T, np.zeros((3, 3))], [np.zeros((3, 3)), T_fkine[:3, :3].T]]) @ J0  # calculate the geometric Jacobian matrix of the robotic arm wrt the end-effector frame
+        # Je = np.block([[np.array(T_fkine[:3, :3]).T, np.zeros((3, 3))], [np.zeros((3, 3)), np.array(T_fkine[:3, :3]).T]]) @ J0  # calculate the geometric Jacobian matrix of the robotic arm wrt the end-effector frame
         return (Je @ np.array(q_dot_joints).reshape(-1, 1)).reshape(-1,)  # return the end-effector velocities in the end-effector frame
 
 def compute_inverse_differential_kinematics(robot, q_joints, end_effector_velocity, wrt_frame = "world"):  # calculate the inverse differential kinematics of the robotic arm
@@ -244,7 +291,7 @@ def find_kinematic_singularities_3d_space(robot, divs = 5, singul_bound = 1e-3, 
         pass
     return non_singular_q, singular_q  # return the non-singular and singular joints configurations
 
-def convert_xy_plane_to_end_effector_velocities(robot, xy_velocities, plane_T, wrt_frame = "world"):  # convert the xy world plane velocities to the given plane velocities and then to end-effector velocitiess
+def convert_xy_plane_to_end_effector_velocities(robot, xy_velocities, plane_T, wrt_frame = "world"):  # convert the xy world plane velocities to the given plane velocities and then to end-effector velocities
     # xy_velocities is a list of velocities in the xy world plane
     p_dot = np.array(xy_velocities).reshape(-1, len(xy_velocities))  # convert the xy world plane velocities to a numpy array
     pe_dot = np.array(plane_T[:3, :3].T @ p_dot).reshape(-1, len(xy_velocities))  # convert the xy plane velocities to the given plane velocities
