@@ -1,43 +1,43 @@
 Name: myArm (standard DH)
 Joints number: 7
-Base position wrt world: 0.000 0.000 0.000
+Base position wrt world: 0.100 0.100 0.000
 Base orientation wrt world: 0.000 0.000 0.000
-Frame "0" position wrt base: 0.000 0.000 0.000
+Frame "0" position wrt base: 0.000 0.000 0.170
 Frame "0" orientation wrt base: 0.000 0.000 0.000
 End-effector position wrt frame "n": 0.000 0.000 0.000
 End-effector orientation wrt frame "n": 0.000 0.000 0.000
 Joint 1 type: revolute
-Joint 1 Denavit - Hartenberg parameters: 0.000 -90.000 0.170 0.000
+Joint 1 Denavit - Hartenberg parameters: 0.000 -90.000 0.000 0.000
 Joint 1 variable limits: -160.000 160.000
 Joint 1 motors: A
 Joint 1 motors mult. factors: 1.0
-Joint 1 z-axis position: 0.000
+Joint 1 z-axis position: -0.086
 Joint 2 type: revolute
-Joint 2 Denavit - Hartenberg parameters: 0.120 180.000 0.000 -80.000
+Joint 2 Denavit - Hartenberg parameters: 0.000 90.000 0.000 0.000
 Joint 2 variable limits: -80.000 80.000
 Joint 2 motors: B
 Joint 2 motors mult. factors: 1.0
 Joint 2 z-axis position: 0.000
 Joint 3 type: revolute
-Joint 3 Denavit - Hartenberg parameters: 0.000 0.000 0.000 0.000
+Joint 3 Denavit - Hartenberg parameters: 0.000 90.000 0.116 0.000
 Joint 3 variable limits: -165.000 165.000
 Joint 3 motors: C
 Joint 3 motors mult. factors: 1.0
-Joint 3 z-axis position: 0.000
+Joint 3 z-axis position: 0.060
 Joint 4 type: revolute
-Joint 4 Denavit - Hartenberg parameters: 0.000 -90.000 0.000 -90.000
+Joint 4 Denavit - Hartenberg parameters: 0.000 -90.000 0.000 0.000
 Joint 4 variable limits: -100.000 80.000
 Joint 4 motors: D
 Joint 4 motors mult. factors: 1.0
 Joint 4 z-axis position: 0.000
 Joint 5 type: revolute
-Joint 5 Denavit - Hartenberg parameters: 0.000 -90.000 0.128 0.000
+Joint 5 Denavit - Hartenberg parameters: 0.000 90.000 0.128 0.000
 Joint 5 variable limits: -165.000 165.000
 Joint 5 motors: E
 Joint 5 motors mult. factors: 1.0
-Joint 5 z-axis position: 0.000
+Joint 5 z-axis position: 0.075
 Joint 6 type: revolute
-Joint 6 Denavit - Hartenberg parameters: 0.000 -90.000 0.000 90.000
+Joint 6 Denavit - Hartenberg parameters: 0.000 -90.000 0.000 0.000
 Joint 6 variable limits: -110.000 110.000
 Joint 6 motors: F
 Joint 6 motors mult. factors: 1.0
@@ -47,48 +47,48 @@ Joint 7 Denavit - Hartenberg parameters: 0.000 0.000 0.066 0.000
 Joint 7 variable limits: -165.000 165.000
 Joint 7 motors: X
 Joint 7 motors mult. factors: 1.0
-Joint 7 z-axis position: 0.000
-Frame "base" origin color: black
-Frame "base" origin size: 7
-Frame "base" joint's link color: red
+Joint 7 z-axis position: 0.066
+Frame "base" origin color: #000000
+Frame "base" origin size: 10
+Frame "base" joint's link color: #000000
 Frame "base" joint's link size: 5
-Frame "base" initial joint's link length: 0.000
-Frame "0" origin color: black
+Frame "base" initial joint's link length: 0.084
+Frame "0" origin color: #0000ff
 Frame "0" origin size: 7
-Frame "0" joint's link color: red
+Frame "0" joint's link color: #000000
 Frame "0" joint's link size: 5
-Frame "0" initial joint's link length: 0.170
-Frame "1" origin color: black
+Frame "0" initial joint's link length: 0.086
+Frame "1" origin color: #00ff00
 Frame "1" origin size: 7
-Frame "1" joint's link color: red
+Frame "1" joint's link color: #000000
 Frame "1" joint's link size: 5
-Frame "1" initial joint's link length: 0.120
-Frame "2" origin color: black
+Frame "1" initial joint's link length: 0.060
+Frame "2" origin color: #d200e6
 Frame "2" origin size: 7
-Frame "2" joint's link color: red
+Frame "2" joint's link color: #000000
 Frame "2" joint's link size: 5
-Frame "2" initial joint's link length: 0.000
-Frame "3" origin color: black
+Frame "2" initial joint's link length: 0.056
+Frame "3" origin color: #00ff00
 Frame "3" origin size: 7
-Frame "3" joint's link color: red
+Frame "3" joint's link color: #000000
 Frame "3" joint's link size: 5
-Frame "3" initial joint's link length: 0.000
-Frame "4" origin color: black
+Frame "3" initial joint's link length: 0.075
+Frame "4" origin color: #f06400
 Frame "4" origin size: 7
-Frame "4" joint's link color: red
+Frame "4" joint's link color: #000000
 Frame "4" joint's link size: 5
-Frame "4" initial joint's link length: 0.128
-Frame "5" origin color: black
+Frame "4" initial joint's link length: 0.053
+Frame "5" origin color: #f06400
 Frame "5" origin size: 7
-Frame "5" joint's link color: red
+Frame "5" joint's link color: #000000
 Frame "5" joint's link size: 5
-Frame "5" initial joint's link length: 0.000
-Frame "6" origin color: black
+Frame "5" initial joint's link length: 0.066
+Frame "6" origin color: #d9cb00
 Frame "6" origin size: 7
-Frame "6" joint's link color: red
+Frame "6" joint's link color: #000000
 Frame "6" joint's link size: 5
-Frame "6" initial joint's link length: 0.066
-Frame "7" origin color: black
+Frame "6" initial joint's link length: 0.000
+Frame "7" origin color: #e873c3
 Frame "7" origin size: 7
-Frame "end-effector" origin color: black
-Frame "end-effector" origin size: 7
+Frame "end-effector" origin color: #000000
+Frame "end-effector" origin size: 10
