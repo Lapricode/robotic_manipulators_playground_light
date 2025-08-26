@@ -8,13 +8,13 @@ End-effector position wrt frame "n": 0.000 0.000 0.000
 End-effector orientation wrt frame "n": 0.000 0.000 0.000
 Joint 1 type: revolute
 Joint 1 Denavit - Hartenberg parameters: 0.000 -90.000 0.000 0.000
-Joint 1 variable limits: -160.000 160.000
+Joint 1 variable limits: -170.000 170.000
 Joint 1 motors: A
 Joint 1 motors mult. factors: 1.0
 Joint 1 z-axis position: -0.086
 Joint 2 type: revolute
 Joint 2 Denavit - Hartenberg parameters: 0.000 90.000 0.000 0.000
-Joint 2 variable limits: -80.000 80.000
+Joint 2 variable limits: -75.000 110.000
 Joint 2 motors: B
 Joint 2 motors mult. factors: 1.0
 Joint 2 z-axis position: 0.000
@@ -26,7 +26,7 @@ Joint 3 motors mult. factors: 1.0
 Joint 3 z-axis position: 0.060
 Joint 4 type: revolute
 Joint 4 Denavit - Hartenberg parameters: 0.000 -90.000 0.000 0.000
-Joint 4 variable limits: -100.000 80.000
+Joint 4 variable limits: -110.000 75.000
 Joint 4 motors: D
 Joint 4 motors mult. factors: 1.0
 Joint 4 z-axis position: 0.000
@@ -44,7 +44,7 @@ Joint 6 motors mult. factors: 1.0
 Joint 6 z-axis position: 0.000
 Joint 7 type: revolute
 Joint 7 Denavit - Hartenberg parameters: 0.000 0.000 0.066 0.000
-Joint 7 variable limits: -165.000 165.000
+Joint 7 variable limits: -180.000 180.000
 Joint 7 motors: X
 Joint 7 motors mult. factors: 1.0
 Joint 7 z-axis position: 0.066
