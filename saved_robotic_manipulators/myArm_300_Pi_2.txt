@@ -45,7 +45,7 @@ Joint 6 z-axis position: 0.000
 Joint 7 type: revolute
 Joint 7 Denavit - Hartenberg parameters: 0.000 0.000 0.066 0.000
 Joint 7 variable limits: -180.000 180.000
-Joint 7 motors: X
+Joint 7 motors: G
 Joint 7 motors mult. factors: 1.0
 Joint 7 z-axis position: 0.066
 Frame "base" origin color: #000000

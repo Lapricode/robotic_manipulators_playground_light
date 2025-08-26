@@ -18,6 +18,7 @@ import serial_port_finder as spf
 import gui_buttons_labels as gbl
 import robots_kinematics as kin
 import general_functions as gf
+import myarm_control  # used in send_serial_command
 
 
 # the class that creates the GUI window of the application
@@ -2249,6 +2250,9 @@ class robotic_manipulators_playground_window():
             print(f"Error in update_serial_connection_indicators: {e}")
     def send_serial_command(self, command, event = None):  # send a command through the serial connection to be executed
         try:  # try to send the command through the serial connection
+            print(">>> " + command)
+            joints_angles = myarm_control.decode_command(command, list(self.control_joints_variables), self.joints_motors_list)
+            myarm_control.send_joints_angles(joints_angles)
             if self.serial_connection.is_open:  # if the serial connection is open
                 if self.allow_sending_all_ports or self.serial_connection_state != "Connected to Port":  # if the user is allowed to send commands to all serial ports or the user is connected to the wrong serial port
                     try:  # try to write the command to the serial monitor
